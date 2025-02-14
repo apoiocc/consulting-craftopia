@@ -25,7 +25,7 @@ export const Hero = () => {
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+    renderer.setSize(window.innerWidth / 2, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     containerRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
@@ -34,7 +34,7 @@ export const Hero = () => {
     const cloverGroup = new THREE.Group();
     
     // Create circles for clover leaf
-    const circleGeometry = new THREE.CircleGeometry(0.8, 32);
+    const circleGeometry = new THREE.CircleGeometry(1.2, 32);
     const materials = [
       new THREE.MeshPhongMaterial({ color: '#1EAEDB', side: THREE.DoubleSide }), // Primary blue
       new THREE.MeshPhongMaterial({ color: '#33C3F0', side: THREE.DoubleSide }), // Sky blue
@@ -44,10 +44,10 @@ export const Hero = () => {
 
     // Position circles to form clover leaf
     const positions = [
-      { x: 0, y: 1, rotation: 0 },
-      { x: 1, y: 0, rotation: Math.PI / 2 },
-      { x: 0, y: -1, rotation: Math.PI },
-      { x: -1, y: 0, rotation: -Math.PI / 2 }
+      { x: 0, y: 1.5, rotation: 0 },
+      { x: 1.5, y: 0, rotation: Math.PI / 2 },
+      { x: 0, y: -1.5, rotation: Math.PI },
+      { x: -1.5, y: 0, rotation: -Math.PI / 2 }
     ];
 
     positions.forEach((pos, index) => {
@@ -95,7 +95,7 @@ export const Hero = () => {
       if (!cameraRef.current || !rendererRef.current) return;
       cameraRef.current.aspect = window.innerWidth / window.innerHeight;
       cameraRef.current.updateProjectionMatrix();
-      rendererRef.current.setSize(window.innerWidth / 2, window.innerHeight / 2);
+      rendererRef.current.setSize(window.innerWidth / 2, window.innerHeight);
     };
     window.addEventListener('resize', handleResize);
 
@@ -112,9 +112,12 @@ export const Hero = () => {
     <>
       {/* Hero Section */}
       <div className="relative min-h-screen bg-gradient-to-b from-white to-secondary overflow-hidden">
-        <div className="absolute inset-0 z-0" ref={containerRef} />
+        {/* 3D Object Container - Positioned on the right */}
+        <div className="absolute right-0 top-0 w-1/2 h-full z-0" ref={containerRef} />
+        
+        {/* Content Container - Limited to left half */}
         <div className="relative z-10 container mx-auto px-4 h-screen flex flex-col justify-center">
-          <div className="max-w-3xl animate-fadeIn">
+          <div className="max-w-xl animate-fadeIn">
             <span className="inline-block px-3 py-1 text-sm bg-primary/10 text-primary rounded-full mb-6">
               Expert Technology Consulting
             </span>
