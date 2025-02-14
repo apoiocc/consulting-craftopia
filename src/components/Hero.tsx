@@ -9,7 +9,7 @@ export const Hero = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const sphereRef = useRef<THREE.Mesh | null>(null);
+  const cloverRef = useRef<THREE.Group | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -30,16 +30,36 @@ export const Hero = () => {
     containerRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Create sphere
-    const geometry = new THREE.SphereGeometry(1.5, 64, 64);
-    const material = new THREE.MeshPhongMaterial({
-      color: '#8B5CF6',
-      shininess: 100,
-      wireframe: true,
+    // Create clover leaf group
+    const cloverGroup = new THREE.Group();
+    
+    // Create circles for clover leaf
+    const circleGeometry = new THREE.CircleGeometry(0.8, 32);
+    const materials = [
+      new THREE.MeshPhongMaterial({ color: '#1EAEDB', side: THREE.DoubleSide }), // Primary blue
+      new THREE.MeshPhongMaterial({ color: '#33C3F0', side: THREE.DoubleSide }), // Sky blue
+      new THREE.MeshPhongMaterial({ color: '#0FA0CE', side: THREE.DoubleSide }), // Deep blue
+      new THREE.MeshPhongMaterial({ color: '#1EAEDB', side: THREE.DoubleSide })  // Primary blue
+    ];
+
+    // Position circles to form clover leaf
+    const positions = [
+      { x: 0, y: 1, rotation: 0 },
+      { x: 1, y: 0, rotation: Math.PI / 2 },
+      { x: 0, y: -1, rotation: Math.PI },
+      { x: -1, y: 0, rotation: -Math.PI / 2 }
+    ];
+
+    positions.forEach((pos, index) => {
+      const circle = new THREE.Mesh(circleGeometry, materials[index]);
+      circle.position.set(pos.x, pos.y, 0);
+      circle.rotation.z = pos.rotation;
+      cloverGroup.add(circle);
     });
-    const sphere = new THREE.Mesh(geometry, material);
-    scene.add(sphere);
-    sphereRef.current = sphere;
+
+    // Add clover group to scene
+    scene.add(cloverGroup);
+    cloverRef.current = cloverGroup;
 
     // Add lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -52,9 +72,8 @@ export const Hero = () => {
     // Animation
     const animate = () => {
       requestAnimationFrame(animate);
-      if (sphereRef.current) {
-        sphereRef.current.rotation.x += 0.001;
-        sphereRef.current.rotation.y += 0.001;
+      if (cloverRef.current) {
+        cloverRef.current.rotation.z += 0.001;
       }
       renderer.render(scene, camera);
     };
@@ -62,11 +81,11 @@ export const Hero = () => {
 
     // Mouse movement effect
     const handleMouseMove = (event: MouseEvent) => {
-      if (sphereRef.current) {
+      if (cloverRef.current) {
         const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
         const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-        sphereRef.current.rotation.x = mouseY * 0.3;
-        sphereRef.current.rotation.y = mouseX * 0.3;
+        cloverRef.current.rotation.x = mouseY * 0.3;
+        cloverRef.current.rotation.y = mouseX * 0.3;
       }
     };
     window.addEventListener('mousemove', handleMouseMove);
@@ -84,7 +103,7 @@ export const Hero = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
       if (containerRef.current && rendererRef.current) {
-        containerRef.current.removeChild(rendererRef.current.domElement);
+        containerRef.current.removeChild(renderer.domElement);
       }
     };
   }, []);
