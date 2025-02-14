@@ -3,7 +3,7 @@ import { Hero } from "@/components/Hero";
 
 const Index = () => {
   return (
-    <main className="min-h-screen bg-secondary">
+    <main className="min-h-screen w-full">
       <Hero />
     </main>
   );
