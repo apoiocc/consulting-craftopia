@@ -1,9 +1,16 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Hero = () => {
+  const navigate = useNavigate();
+
+  const handleClick = (e: React.MouseEvent, path: string) => {
+    e.preventDefault();
+    navigate(path);
+  };
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Animated Blobs */}
@@ -29,12 +36,10 @@ export const Hero = () => {
             <Button 
               size="lg" 
               className="bg-primary hover:bg-primary/90 text-white px-8"
-              asChild
+              onClick={(e) => handleClick(e, '/contact')}
             >
-              <Link to="/contact">
-                Get Free Consultation
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+              Get Free Consultation
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
 
