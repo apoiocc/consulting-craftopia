@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
@@ -19,18 +20,21 @@ export const Hero = () => {
             Expert Technology Consulting
           </span>
           <h1 className="text-5xl md:text-6xl font-bold text-primary mb-6 leading-tight">
-            Automate Your Business with Expert System Setup
+            Seamless Business Automation & System Setup
           </h1>
           <p className="text-xl text-primary/80 mb-8">
-            We help businesses streamline operations by setting up tailored systems that boost efficiency and save time.
+            We integrate and optimize the right tools to help your business run smoothly.
           </p>
           <div className="flex gap-4">
             <Button 
               size="lg" 
               className="bg-primary hover:bg-primary/90 text-white px-8"
+              asChild
             >
-              Get Free Consultation
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <Link to="/contact">
+                Get Free Consultation
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </Button>
           </div>
 

@@ -1,6 +1,7 @@
 
 import { MessageSquare, ShoppingCart, Trello, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const setups = [
   {
@@ -55,7 +56,9 @@ export const SystemSetups = () => {
                   <p className="text-primary/80">{setup.solution}</p>
                 </div>
               </div>
-              <Button variant="outline">Learn More</Button>
+              <Button variant="outline" asChild>
+                <Link to="/services">Learn More</Link>
+              </Button>
             </div>
           ))}
         </div>
